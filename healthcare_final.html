@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CliniFlow - Healthcare Practice Automation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,107,107,0.6);
+        }
+        
+        .stats {
+            background: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-card {
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .demo-section {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+        
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .demo-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .demo-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+        
+        .demo-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .demo-features li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .demo-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .dashboard-demo {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f1f3f4;
+        }
+        
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #28a745;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .chart-placeholder {
+            background: #f8f9fa;
+            height: 200px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .testimonial {
+            background: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .testimonial-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .testimonial-role {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .pricing {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            color: white;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-card.featured {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+        
+        .pricing-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-features li {
+            padding: 0.5rem 0;
+            opacity: 0.9;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .footer-content {
+            margin-bottom: 2rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .demo-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">CliniFlow</div>
+            <ul class="nav-links">
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Reduce No-Shows by 60%</h1>
+            <p>Complete healthcare practice automation that saves time, increases revenue, and delights patients</p>
+            <a href="#demo" class="cta-button">See Live Demo</a>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <h2>Proven Results from Real Practices</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">67%</div>
+                    <div class="stat-label">Reduction in No-Shows</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$31K</div>
+                    <div class="stat-label">Monthly Revenue Recovered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15hrs</div>
+                    <div class="stat-label">Weekly Staff Time Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.7★</div>
+                    <div class="stat-label">Average Patient Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo-section" id="demo">
+        <div class="container">
+            <div class="demo-container">
+                <div class="demo-content">
+                    <h2>See CliniFlow in Action</h2>
+                    <p>This is a live dashboard from Manhattan Cardiology showing real-time results after implementing CliniFlow automation.</p>
+                    <ul class="demo-features">
+                        <li>24/7 automated patient booking</li>
+                        <li>Intelligent conflict detection</li>
+                        <li>Smart reminder system (Email + SMS)</li>
+                        <li>Real-time analytics dashboard</li>
+                        <li>HIPAA-compliant data handling</li>
+                        <li>Staff time savings automation</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Schedule Your Demo</a>
+<a href="mailto:advikjaiswal90@gmail.com?subject=let's set up a meeting" class="cta-button">Set Up Meeting</a>
+                </div>
+                <div class="dashboard-demo">
+                    <div class="dashboard-header">
+                        <div class="dashboard-title">Manhattan Cardiology - Live Dashboard</div>
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span>System Active</span>
+                        </div>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">23</div>
+                            <div class="metric-label">Appointments Today</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">9%</div>
+                            <div class="metric-label">No-Show Rate</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">147</div>
+                            <div class="metric-label">This Week</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">$18.4K</div>
+                            <div class="metric-label">Revenue Saved</div>
+                        </div>
+                    </div>
+                    
+    <div class="chart-placeholder">
+        📈 See Live Results Instantly:
+        <br><br>
+        <a href="https://dxzxhnej.manus.space" target="_blank" class="cta-button">Open Dashboard</a>
+    </div>
+    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial">
+        <div class="container">
+            <div class="testimonial-content">
+                <div class="testimonial-text">
+                    "CliniFlow didn't just save us money - it saved our reputation. Our Google reviews went from 3.1 to 4.7 stars in 4 months. The automated system handles everything seamlessly, and our staff can focus on patient care instead of scheduling chaos."
+                </div>
+                <div class="testimonial-author">Dr. Michael Peterson</div>
+                <div class="testimonial-role">Manhattan Cardiology Practice</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem;">Investment Options</h2>
+            <p style="text-align: center; opacity: 0.9;">Choose the package that fits your practice size and needs</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-title">Starter</div>
+                    <div class="pricing-price">$1,997</div>
+                    <ul class="pricing-features">
+                        <li>✓ Automated patient intake</li>
+                        <li>✓ Email confirmations</li>
+                        <li>✓ Basic analytics</li>
+                        <li>✓ 2-week setup</li>
+                        <li>✓ Staff training</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-title">Professional</div>
+                    <div class="pricing-price">$3,997</div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 0.5rem; border-radius: 5px; margin-bottom: 1rem; font-size: 0.9rem;">Most Popular</div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Starter</li>
+                        <li>✓ SMS reminders</li>
+                        <li>✓ Advanced conflict detection</li>
+                        <li>✓ Custom branding</li>
+                        <li>✓ HIPAA compliance</li>
+                        <li>✓ 30-day support</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-title">Enterprise</div>
+                    <div class="pricing-price">$7,997</div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Professional</li>
+                        <li>✓ Multi-location support</li>
+                        <li>✓ Practice management integration</li>
+                        <li>✓ Advanced reporting</li>
+                        <li>✓ White-label solution</li>
+                        <li>✓ Quarterly optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <h3>Ready to Transform Your Practice?</h3>
+                <p>Schedule a 15-minute demo to see exactly how CliniFlow works with your patient flow.</p>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>advikjaiswal90@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span>+91 9003895778</span>
+                </div>
+                <div class="contact-item">
+                    <span>📅</span>
+                    <span>Schedule Demo</span>
+                </div>
+            </div>
+            <p>&copy; 2024 CliniFlow. Professional Healthcare Automation.</p>
+        </div>
+    </footer>
+</body>
+</html>
